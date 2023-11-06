@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+</head>
+<body>
+
+	<input type="text" id ="email">
+	<span id="regResult"></span>
+	
+	
+	<script>
+
+		<!--
+		
+		2. 텍스트 입력창에는 사용자 입력을 감지하는 이벤트를 적용한다.
+		
+		> 입력 이벤트가 발생하면 , 현재까지 입력된 내용에 대하여 email 형식에 맞는지 검증한다.
+		
+		-->
+	
+		$("#email").on("input",function(){
+		
+			var email = $("#email").val();
+			
+			var regex = /\w+@\w\.\w+/;
+			
+			if(regex.exec(email) == null){
+			
+			<!-- 3. email 형식에 맞지 않다면 span 태그에 "이메일 형식에 맞지 않습니다." 를 출력하고 return 한다.-->
+			
+			$("#regResult").html("이메일 형식에 맞지 않습니다.");
+			
+			return;
+		
+			}
+			
+	
+		<!-- 4. 만약 email 형식에 맞는다면, Controller의 CheckEmail Method 으로 {email : "입력값"} 을 비동기 전송한다.-->
+		
+		
+		$.ajax({
+			
+				url:"CheckEmail",
+				
+				data:{email: $("#email").val()},
+				
+				success:function(resp){
+				
+					<!-- 10. 서버로 보낸 비동기 요청에 따른 응답이 돌아오면 그 결과값을 span 태그에 출력한다.-->
+					
+					$("#regResult").html(resp);
+				
+				}
+			
+		})
+		
+	})
+	
+	</script>
+
+</body>
